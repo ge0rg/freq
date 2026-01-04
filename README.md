@@ -51,6 +51,13 @@ If you find `freq` useful, please contribute more examples! Just open an
 issue.
 
 ### Word Count
+
+Parameters:
+ - `-l30` (`--limit`) - print top 30 values
+ - `-g "^([a-z]+)[,.]*$"` (`--regex`) - capture words consisting of letters, ignore trailing punctuation
+
+Output: count, percentage, cumulative percentage, word
+
 ```
 tr 'A-Z ' 'a-z\n' < 2600.txt.utf-8 | freq -l30 -g "^([a-z]+)[,.]*$"
   34269   6.547   6.547  the
@@ -86,6 +93,19 @@ tr 'A-Z ' 'a-z\n' < 2600.txt.utf-8 | freq -l30 -g "^([a-z]+)[,.]*$"
 ```
 
 ### IP Addresses with Most Distinct User Agent Strings
+
+First `freq` invocation (output unique IP + user agent combos):
+ - `-F` (`--no-freq-sort`) - Do not sort by frequency
+ - `-U` (`--unstable`) - Do not sort values with same frequency
+ - `-u` (`--unique`) - Output unique values with no additional data
+ - `-g '\S+\s+(\S+)\s+(?:\S+\s+){10}"([^"]+)"'` - capture and use 2nd and 13th columns from log file
+
+Second `freq` invocation (count IP addresses):
+ - `-l25` (`--limit`) - print top 25 values
+ - `-L` (`--lexigraphic`) - Sort values with same frequency lexicographically
+ - `-n` (`--number`) - Include line numbers
+ - `-g '^(\S+)'` - capture and use first column
+
 ```
 freq -FUug '\S+\s+(\S+)\s+(?:\S+\s+){10}"([^"]+)"' /var/log/nginx/access.log | freq -l25 -Lng '^(\S+)'
      1     94   1.097   1.097  141.95.205.46
